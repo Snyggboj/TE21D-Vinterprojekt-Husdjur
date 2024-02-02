@@ -12,33 +12,61 @@ public class Household {
     }
 
     // Methods
-    public void addPet(Animal animal){
-        pets.add(animal);
+    public void addPet(){
+        Scanner scanType = new Scanner(System.in);
+        System.out.println("Välj typ:");
+        System.out.println("1.Hund \n2.Fisk \n3.Fågel");
+
+        boolean svar = true;
+        while(svar){
+            svar = false;
+            switch (scanType.nextLine()) {
+                case "1" -> this.addDog();
+                case "2" -> this.addFish();
+                case "3" -> this.addBird();
+                default -> {
+                    System.out.println("tal tack");
+                    svar = true;
+                }
+            }
+        }
     }
-    public void printPets(){
-        for(int i = 0; i < pets.size(); i++){
-            System.out.println((i + 1) + ". " + pets.get(i).name);
-            System.out.println("Lives: " + pets.get(i).getLives());
-            System.out.println("Hunger: " + pets.get(i).getHunger());
-            System.out.println("Boredom: " + pets.get(i).getBoredom());
+    public void printPets(ArrayList<Animal> lista){
+        for(int i = 0; i < lista.size(); i++){
+            System.out.println((i + 1) + ". " + lista.get(i).name);
+            System.out.println("Type: " + lista.get(i).getType());
+            System.out.println("Lives: " + lista.get(i).getLives());
+            System.out.println("Hunger: " + lista.get(i).getHunger());
+            System.out.println("Boredom: " + lista.get(i).getBoredom());
+            System.out.println();
         }
     }
     public void addDog(){
+        System.out.println("Vad ska din hund heta? ");
         Scanner nameScan = new Scanner(System.in);
-        pets.add(new Dog(nameScan.nextLine()));
+        pets.add(new Dog(nameScan.nextLine(), this));
     }
     public void addFish(){
+        System.out.println("Vad ska din fisk heta? ");
         Scanner nameScan = new Scanner(System.in);
-        pets.add(new Fish(nameScan.nextLine()));
+        pets.add(new Fish(nameScan.nextLine(), this));
     }
     public void addBird(){
+        System.out.println("Vad ska din fågel heta? ");
         Scanner nameScan = new Scanner(System.in);
-        pets.add(new Bird(nameScan.nextLine()));
+        pets.add(new Bird(nameScan.nextLine(), this));
     }
-
 
     // Getters och setters
     public ArrayList<Animal> getPets() {
         return pets;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public ArrayList<Animal> getPetCemetary() {
+        return petCemetary;
     }
 }

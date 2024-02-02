@@ -1,16 +1,22 @@
+import java.util.Scanner;
+
 public class Animal {
     // Attributes
     private boolean alive = true;
-    private int lives = 3;
+    protected int lives = 3;
     public String name;
+    private String type;
     private int hunger = 5;
     private int boredom = 5;
     private final int hungerMax = 10;
     private final int boredomLimit = 10;
+    private Household household;
 
     // Constructors
-    public Animal(String name){
+    public Animal(String name, Household household, String type){
         this.name = name;
+        this.household = household;
+        this.type = type;
     }
     public Animal(){}
 
@@ -61,6 +67,9 @@ public class Animal {
         boredom = 5;
     }
 
+    public void activity(){
+    }
+
     // Getters and setters
     public int getHunger() {
         return hunger;
@@ -80,5 +89,9 @@ public class Animal {
 
     public int getLives() {
         return lives;
+    }
+
+    public String getType() {
+        return type;
     }
 }
