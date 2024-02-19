@@ -1,10 +1,13 @@
 import java.util.ArrayList;
 import java.util.Scanner;
 
+// Class for the game loop
 public class PetGame {
+    // Attributes
     private Scanner skannare = new Scanner(System.in);
     private ArrayList<Household> households = new ArrayList<Household>();
 
+    // Constructors
     public PetGame(){
         System.out.println("Du har inget hushåll");
         System.out.println("Dags att skapa ett!");
@@ -13,12 +16,15 @@ public class PetGame {
         showMenu(chooseHousehold());
     }
 
+    // Methods
+    // Add household to game
     public Household addHousehold(){
         System.out.println("Välj namn på hushåll:");
 
         return new Household(skannare.nextLine());
     }
 
+    // Pick household from household list
     public Household chooseHousehold(){
         System.out.println("Vilket hushåll är tillhör du?");
         printHouseholds();
@@ -42,12 +48,14 @@ public class PetGame {
         return households.get(index);
     }
 
+    // Write out all households in list
     public void printHouseholds(){
         for (int i = 0; i < households.size(); i++){
-            System.out.println((i + 1) + ". " + households.get(i).getName());
+            System.out.println((i + 1) + "." + households.get(i).getName());
         }
     }
 
+    // Show game menu
     public void showMenu(Household household){
         boolean keepGoing = true;
         while(keepGoing){
@@ -62,7 +70,10 @@ public class PetGame {
                 svar = false;
                 switch (skannare.nextLine()){
                     case "1" -> accessAnimals(household);
-                    case "2" -> household.printPets(household.getPetCemetary());
+                    case "2" -> {
+                        household.printPets(household.getPetCemetary());
+                        skannare.nextLine();
+                    }
                     case "3" -> household = chooseHousehold();
                     case "4" -> keepGoing = false;
                     default -> {
@@ -74,6 +85,7 @@ public class PetGame {
         }
     }
 
+    // Access your animals to see their info
     public void accessAnimals(Household household){
         if (household.getPets().isEmpty()){
             System.out.println("Du har inga djur");
@@ -92,6 +104,7 @@ public class PetGame {
                     } else {
                         if(index == household.getPets().size()){
                             household.addPet();
+                            break;
                         } else {
                             System.out.println("Välj ett nummer på listan");
                         }
@@ -101,12 +114,20 @@ public class PetGame {
                 }
             }
             petAction(household.getPets().get(index));
+            household.tickAnimals();
         }
     }
 
+    // Play, feed or do an activity with your pet
     public void petAction(Animal animal){
+        System.out.println(animal.name);
+        System.out.println("Typ: " + animal.getType());
+        System.out.println("Liv kvar: " + animal.getLives());
+        System.out.println("Hunger: " + animal.getHunger() + "/" + animal.getHungerMax());
+        System.out.println("Uttråknad: " + animal.getBoredom() + "/" + animal.getBoredomLimit());
+        System.out.println();
         System.out.println("Vad vill du göra?");
-        System.out.println("1.Leka \n2.Mata \n3.Aktivitet");
+        System.out.println("1.Leka \n2.Mata \n3.Aktivitet \n4.Gå tillbaka");
 
         boolean svar = true;
         while(svar){
@@ -115,6 +136,7 @@ public class PetGame {
                 case "1" -> animal.play();
                 case "2" -> animal.feed();
                 case "3" -> animal.activity();
+                case "4" -> accessAnimals(animal.getHousehold());
                 default -> {
                     System.out.println("tal tack");
                     svar = true;

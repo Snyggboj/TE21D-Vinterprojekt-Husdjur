@@ -1,5 +1,4 @@
-import java.util.Scanner;
-
+// Class for basic animals in game
 public class Animal {
     // Attributes
     private boolean alive = true;
@@ -21,11 +20,12 @@ public class Animal {
     public Animal(){}
 
     // Methods
+    // Feed pet, lowers hunger
     public void feed(){
         if (hunger == 0){
             // Övermatad
             this.lives--;
-            hunger = 0;
+            resetLife();
         } else {
             hunger -= hungerMax/5;
             if (hunger > hungerMax){
@@ -33,11 +33,11 @@ public class Animal {
             }
         }
     }
+    // Play with pet, lowers boredom
     public void play(){
         if (boredom == 0){
             // Överstimulerad
-            this.lives--;
-            boredom = 0;
+            resetLife();
         } else {
             boredom -= boredomLimit/5;
             if (boredom > boredomLimit){
@@ -45,6 +45,7 @@ public class Animal {
             }
         }
     }
+    // tick pet when action is done, raises hunger and boredom
     public void tick(){
         hunger += hungerMax/10;
         boredom += boredomLimit/10;
@@ -56,17 +57,22 @@ public class Animal {
         }
 
         if(lives == 0){
+            System.out.println(name  + " har dött");
+            System.out.println("Du kan besöka det i djurkyrkogården");
             alive = false;
-            resetLife();
+            household.getPetCemetary().add(this);
         }
     }
 
-    private void resetLife() {
-        lives = 3;
+    // Reset life when pet has lost one
+    protected void resetLife() {
+        System.out.println(name + " har blivit av med ett liv");
+        System.out.println("Liv kvar: " + lives);
         hunger = 5;
         boredom = 5;
     }
 
+    // Do an activity with a pet, different for different types
     public void activity(){
     }
 
@@ -93,5 +99,8 @@ public class Animal {
 
     public String getType() {
         return type;
+    }
+    public Household getHousehold() {
+        return household;
     }
 }

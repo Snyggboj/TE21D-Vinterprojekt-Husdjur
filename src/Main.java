@@ -1,8 +1,7 @@
-import java.util.Scanner;
-
 public class Main {
     public static void main(String[] args) {
         System.out.println("Hello husdjur!");
-        PetGame spel = new PetGame();
+        // Skapa ett spel
+        new PetGame();
     }
 }
